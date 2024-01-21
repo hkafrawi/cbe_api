@@ -1,10 +1,13 @@
 import requests
 from bs4 import BeautifulSoup
 
-def get_cbe_rate():
+def get_cbe_rate(start_date: list=[1,1,2024],end_date: list=[15,1,2024],ccy:str = "USD"):
+    
+    #start_date -> [dd,mm,yyyy]
+    #end_date -> [dd,mm,yyyy]
     url = "https://www.cbe.org.eg/api/statistics/GetHistoricalData"
 
-    payload = "__RequestVerificationToken=3BSvkIrU2RXyPkfvelFrXZnW030Ag26_gk2zIxPURokFgBYJqY6MhNvn2seRJSFUfarZlmfSrncDtc6DeDBMBgOoo0ZmC-7zuy6MvaY_fys1&uid=54010050-4405-48c8-9c56-fe19328e9e65&DataSourceId=AAE2ED195E0649EB9C40FF484EC851B6&FallbackUrl=%2Fen%2Feconomic-research%2Fstatistics%2Fexchange-rates%2Fhistorical-data&LanguageName=en&FromDateRaw=15%2F01%2F2024&ToDateRaw=21%2F01%2F2024&SelectedSelectOptions=US+Dollar&multiselect_multipleSelectID=US+Dollar&SubmitAction=1"
+    payload = f"__RequestVerificationToken=3BSvkIrU2RXyPkfvelFrXZnW030Ag26_gk2zIxPURokFgBYJqY6MhNvn2seRJSFUfarZlmfSrncDtc6DeDBMBgOoo0ZmC-7zuy6MvaY_fys1&uid=54010050-4405-48c8-9c56-fe19328e9e65&DataSourceId=AAE2ED195E0649EB9C40FF484EC851B6&FallbackUrl=%2Fen%2Feconomic-research%2Fstatistics%2Fexchange-rates%2Fhistorical-data&LanguageName=en&FromDateRaw={start_date[0]:02d}%2F{start_date[1]:02d}%2F{start_date[2]}&ToDateRaw={end_date[0]:02d}%2F{end_date[1]:02d}%2F{end_date[2]}&SelectedSelectOptions=US+Dollar&multiselect_multipleSelectID=US+Dollar&SubmitAction=1"
     headers = {
     'authority': 'www.cbe.org.eg',
     'accept': '*/*',
