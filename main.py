@@ -1,5 +1,5 @@
 import requests
-import json
+from bs4 import BeautifulSoup
 
 def get_cbe_rate():
     url = "https://www.cbe.org.eg/api/statistics/GetHistoricalData"
@@ -24,5 +24,36 @@ def get_cbe_rate():
     }
 
     r = requests.post(url,headers=headers,data=payload)
-    return r.text
-print(get_cbe_rate())
+    if r.status_code == 200:
+        soup = BeautifulSoup(r.text, 'html.parser')
+        table = soup.find('table', class_='table-comp')
+
+        if table:
+            rows = table.find_all('tr', class_='content-height')[1:]  # Skip the header row
+            result = []
+
+            for row in rows:
+                columns = row.find_all('td', class_='column-width table-cell')
+                date = columns[0].text.strip()
+                currency = columns[1].text.strip()
+                buy_rate = float(columns[2].text.strip())
+                sell_rate = float(columns[3].text.strip())
+
+                data = {
+                    'date': date,
+                    'currency': currency,
+                    'buy_rate': buy_rate,
+                    'sell_rate': sell_rate
+                }
+
+                result.append(data)
+
+            return result
+
+    print(f"Error: {r.status_code} - {r.text}")
+    return None
+
+# Save the extracted data to a JSON file
+data = get_cbe_rate()
+
+print(data)
