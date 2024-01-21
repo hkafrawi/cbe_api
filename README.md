@@ -22,3 +22,12 @@ The Function **get_cbe_rate()** takes the following variables:
 > You have to use the exact text in the Input Function Table.
 
 The function outputs a dictionary with the Date, Currency, Buy Rate and Sell Rate as provided by the CBE. 
+
+## Requirements
+beautifulsoup4==4.12.3
+certifi==2023.11.17
+charset-normalizer==3.3.2
+idna==3.6
+requests==2.31.0
+soupsieve==2.5
+urllib3==2.1.0
